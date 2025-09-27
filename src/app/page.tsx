@@ -1,103 +1,140 @@
-import Image from "next/image";
+"use client";
+import React, { useState } from "react";
+import CategoriesPanel from "./components/CategoriesPanel";
+import ItemsPanel from "./components/ItemsPanel";
+import CheckoutPanel from "./components/CheckoutPanel";
+import { WishlistProvider } from "./components/WishlistContext";
+import { categories } from "./components/CategoryData";
+import { Item } from "./components/ItemData";
 
-export default function Home() {
+const HomePage = () => {
+  const [activeCategory, setActiveCategory] = useState(categories[0].key);
+  const [activeSubcategory, setActiveSubcategory] = useState<string | null>(null);
+  const [selectedItem, setSelectedItem] = useState<Item | null>(null);
+  const [showCategories, setShowCategories] = useState(false); // New: Toggle categories
+  const [showCheckout, setShowCheckout] = useState(false); // New: Toggle checkout
+
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <WishlistProvider>
+      {/* Navbar for tablet/mobile */}
+      <nav className="lg:hidden bg-white border-b border-gray-200 p-4 flex justify-between items-center fixed top-0 left-0 right-0 z-30">
+        <button
+          className="text-gray-900 text-2xl"
+          onClick={() => {
+            setShowCategories(!showCategories);
+            setShowCheckout(false); // Close other sidebar
+          }}
+        >
+          <i className="fas fa-bars"> 🍔</i> {/* Hamburger icon */}
+        </button>
+        <h1 className="text-xl font-bold text-gray-900">Luxe Dining</h1>
+        <button
+          className="text-gray-900 text-2xl"
+          onClick={() => {
+            setShowCheckout(!showCheckout);
+            setShowCategories(false); // Close other sidebar
+          }}
+        >
+          <i className="fas fa-heart">❤️</i> {/* Heart icon */}
+        </button>
+      </nav>
+      <main className="flex flex-col lg:flex-row h-screen  mx-auto bg-white shadow-2xl overflow-hidden pt-16 lg:pt-0">
+        {/* Categories Sidebar */}
+        <div
+          className={`fixed top-0 left-0 h-full z-40 bg-white transition-transform duration-300 transform ${
+            showCategories ? "translate-x-0" : "-translate-x-full"
+          } lg:static lg:translate-x-0 lg:flex`}
+        >
+          <CategoriesPanel
+            activeCategory={activeCategory}
+            setActiveCategory={setActiveCategory}
+            activeSubcategory={activeSubcategory}
+            setActiveSubcategory={setActiveSubcategory}
+          />
         </div>
+        {/* Categories Backdrop */}
+        {showCategories && (
+          <div
+            className="fixed inset-0  bg-opacity-50 z-30 lg:hidden"
+            onClick={() => setShowCategories(false)}
+          ></div>
+        )}
+        {/* Items Panel */}
+        <ItemsPanel
+          activeCategory={activeCategory}
+          activeSubcategory={activeSubcategory}
+          setSelectedItem={setSelectedItem}
+        />
+        {/* Checkout Sidebar */}
+        <div
+          className={`fixed top-0 right-0 h-full z-40 bg-white transition-transform duration-300 transform ${
+            showCheckout ? "translate-x-0" : "translate-x-full"
+          } lg:static lg:translate-x-0 lg:flex`}
+        >
+          <CheckoutPanel />
+        </div>
+        {/* Checkout Backdrop */}
+        {showCheckout && (
+          <div
+            className="fixed inset-0  bg-opacity-50 z-30 lg:hidden"
+            onClick={() => setShowCheckout(false)}
+          ></div>
+        )}
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+      {/* Product Detail Modal */}
+      {selectedItem && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+          onClick={() => setSelectedItem(null)}
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+          <div
+            className="bg-white rounded-xl max-w-md w-full max-h-[90vh] overflow-y-auto"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="relative">
+              <img
+                src={selectedItem.imageUrl}
+                alt={selectedItem.name}
+                className="w-full h-48 object-cover rounded-t-xl"
+              />
+              <button
+                className="absolute top-2 right-2 bg-white rounded-full p-1 shadow"
+                onClick={() => setSelectedItem(null)}
+              >
+                ×
+              </button>
+            </div>
+            <div className="p-6">
+              <h2 className="text-xl font-bold mb-2">{selectedItem.name}</h2>
+              <p className="text-gray-600 mb-4">{selectedItem.description}</p>
+              <div className="flex gap-2 items-center mb-4">
+                <span className="line-through text-gray-400">
+                  ${selectedItem.originalPrice.toFixed(2)}
+                </span>
+                <span className="text-yellow-600 font-bold">
+                  ${selectedItem.price.toFixed(2)}
+                </span>
+              </div>
+              <h3 className="font-semibold mb-2">Ingredients:</h3>
+              <ul className="list-disc list-inside text-sm text-gray-600 mb-4">
+                {selectedItem.ingredients.map((ing, idx) => (
+                  <li key={idx}>{ing}</li>
+                ))}
+              </ul>
+              <button
+                className="w-full bg-yellow-500 text-white py-2 rounded-lg font-semibold"
+                onClick={() => {
+                  setSelectedItem(null);
+                }}
+              >
+                Add to Wishlist
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </WishlistProvider>
   );
-}
+};
+
+export default HomePage;
