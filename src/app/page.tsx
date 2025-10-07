@@ -64,6 +64,8 @@ const HomePage = () => {
           activeCategory={activeCategory}
           activeSubcategory={activeSubcategory}
           setSelectedItem={setSelectedItem}
+            setActiveSubcategory={setActiveSubcategory}
+
         />
         {/* Checkout Sidebar */}
         <div

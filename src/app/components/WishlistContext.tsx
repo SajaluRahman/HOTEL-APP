@@ -5,6 +5,7 @@ import type { Item } from "./ItemData";
 type WishlistItem = {
   item: Item;
   quantity: number;
+  selectedAddOns: string[]; // Tracks selected add-on names
 };
 
 type Wishlist = Record<number, WishlistItem>;
@@ -14,6 +15,7 @@ type WishlistContextType = {
   toggleWishlist: (item: Item) => void;
   updateQuantity: (id: number, change: number) => void;
   clearWishlist: () => void;
+  updateAddOns: (id: number, addOnName: string) => void; // Toggle add-ons
 };
 
 const WishlistContext = createContext<WishlistContextType | undefined>(undefined);
@@ -35,7 +37,7 @@ export const WishlistProvider = ({ children }: { children: ReactNode }) => {
             delete w[item.id];
             return w;
           })()
-        : { ...wishlist, [item.id]: { item, quantity: 1 } }
+        : { ...wishlist, [item.id]: { item, quantity: 1, selectedAddOns: [] } }
     );
   };
 
@@ -55,8 +57,20 @@ export const WishlistProvider = ({ children }: { children: ReactNode }) => {
 
   const clearWishlist = () => setWishlist({});
 
+  const updateAddOns = (id: number, addOnName: string) => {
+    setWishlist(wishlist => {
+      const entry = wishlist[id];
+      if (!entry) return wishlist;
+      if (!entry.item.addOns.some(a => a.name === addOnName)) return wishlist;
+      const selectedAddOns = entry.selectedAddOns.includes(addOnName)
+        ? entry.selectedAddOns.filter(name => name !== addOnName)
+        : [...entry.selectedAddOns, addOnName];
+      return { ...wishlist, [id]: { ...entry, selectedAddOns } };
+    });
+  };
+
   return (
-    <WishlistContext.Provider value={{ wishlist, toggleWishlist, updateQuantity, clearWishlist }}>
+    <WishlistContext.Provider value={{ wishlist, toggleWishlist, updateQuantity, clearWishlist, updateAddOns }}>
       {children}
     </WishlistContext.Provider>
   );

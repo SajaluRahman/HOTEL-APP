@@ -5,9 +5,10 @@ export type Item = {
   originalPrice: number;
   description: string;
   categoryKey: string;
-  subcategory: string;  // New: For filtering
-  ingredients: string[];  // New: For popup details
-  imageUrl: string;  // New: Real image URL
+  subcategory: string;
+  ingredients: string[];
+  imageUrl: string;
+  addOns: { name: string; price: number }[]; // New: Add-ons for each item
 };
 
 export const items: Item[] = [
@@ -22,6 +23,11 @@ export const items: Item[] = [
     subcategory: "Continental",
     ingredients: ["Flour", "Butter", "Yeast", "Salt"],
     imageUrl: "https://images.pexels.com/photos/3892469/pexels-photo-3892469.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    addOns: [
+      { name: "Extra Butter", price: 1.0 },
+      { name: "Jam", price: 1.5 },
+      { name: "Nutella", price: 2.0 },
+    ],
   },
   {
     id: 2,
@@ -33,6 +39,11 @@ export const items: Item[] = [
     subcategory: "American",
     ingredients: ["Flour", "Eggs", "Milk", "Maple Syrup", "Berries"],
     imageUrl: "https://images.pexels.com/photos/14335957/pexels-photo-14335957.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    addOns: [
+      { name: "Whipped Cream", price: 1.5 },
+      { name: "Extra Berries", price: 2.0 },
+      { name: "Chocolate Sauce", price: 1.5 },
+    ],
   },
   {
     id: 3,
@@ -43,7 +54,12 @@ export const items: Item[] = [
     categoryKey: "breakfast",
     subcategory: "Continental",
     ingredients: ["Eggs", "Brioche", "Hollandaise", "Truffle Oil", "Ham"],
-    imageUrl: "https://images.pexels.com/photos/1279330/pexels-photo-1279330.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",  // Eggs Benedict example
+    imageUrl: "https://images.pexels.com/photos/1279330/pexels-photo-1279330.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    addOns: [
+      { name: "Extra Hollandaise", price: 2.0 },
+      { name: "Smoked Salmon", price: 3.5 },
+      { name: "Avocado", price: 2.5 },
+    ],
   },
   {
     id: 4,
@@ -54,7 +70,12 @@ export const items: Item[] = [
     categoryKey: "breakfast",
     subcategory: "American",
     ingredients: ["Flour", "Eggs", "Butter", "Fruit", "Whipped Cream"],
-    imageUrl: "https://images.unsplash.com/photo-1572448804125-7f1e3b9fc9e8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1260&h=750&q=80",  // Waffle from Unsplash
+    imageUrl: "https://images.unsplash.com/photo-1572448804125-7f1e3b9fc9e8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1260&h=750&q=80",
+    addOns: [
+      { name: "Caramel Sauce", price: 1.5 },
+      { name: "Ice Cream Scoop", price: 2.0 },
+      { name: "Nuts", price: 1.0 },
+    ],
   },
   {
     id: 5,
@@ -66,6 +87,11 @@ export const items: Item[] = [
     subcategory: "Healthy Options",
     ingredients: ["Avocado", "Sourdough", "Feta", "Microgreens", "Lemon"],
     imageUrl: "https://images.pexels.com/photos/4062617/pexels-photo-4062617.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    addOns: [
+      { name: "Poached Egg", price: 2.0 },
+      { name: "Chili Flakes", price: 0.5 },
+      { name: "Cherry Tomatoes", price: 1.5 },
+    ],
   },
   {
     id: 6,
@@ -77,6 +103,11 @@ export const items: Item[] = [
     subcategory: "American",
     ingredients: ["Eggs", "Bacon", "Sausage", "Beans", "Toast"],
     imageUrl: "https://images.pexels.com/photos/19552394/pexels-photo-19552394.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    addOns: [
+      { name: "Extra Bacon", price: 2.5 },
+      { name: "Mushrooms", price: 1.5 },
+      { name: "Grilled Tomato", price: 1.0 },
+    ],
   },
   // Lunch
   {
@@ -88,7 +119,12 @@ export const items: Item[] = [
     categoryKey: "lunch",
     subcategory: "Salads",
     ingredients: ["Romaine", "Caesar Dressing", "Croutons", "Parmesan"],
-    imageUrl: "https://images.pexels.com/photos/2097090/pexels-photo-2097090.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",  // Caesar Salad example
+    imageUrl: "https://images.pexels.com/photos/2097090/pexels-photo-2097090.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    addOns: [
+      { name: "Grilled Chicken", price: 3.0 },
+      { name: "Extra Parmesan", price: 1.0 },
+      { name: "Anchovies", price: 1.5 },
+    ],
   },
   {
     id: 8,
@@ -99,7 +135,12 @@ export const items: Item[] = [
     categoryKey: "lunch",
     subcategory: "Sandwiches",
     ingredients: ["Turkey", "Bacon", "Lettuce", "Tomato", "Mayo"],
-    imageUrl: "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1260&h=750&q=80",  // Turkey sandwich from Unsplash
+    imageUrl: "https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1260&h=750&q=80",
+    addOns: [
+      { name: "Extra Bacon", price: 2.0 },
+      { name: "Avocado", price: 2.0 },
+      { name: "Cheddar Cheese", price: 1.5 },
+    ],
   },
   {
     id: 9,
@@ -110,7 +151,12 @@ export const items: Item[] = [
     categoryKey: "lunch",
     subcategory: "Soups",
     ingredients: ["Tomatoes", "Basil", "Cream", "Croutons"],
-    imageUrl: "https://images.pexels.com/photos/1279331/pexels-photo-1279331.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",  // Tomato soup example
+    imageUrl: "https://images.pexels.com/photos/1279331/pexels-photo-1279331.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    addOns: [
+      { name: "Garlic Bread", price: 2.0 },
+      { name: "Extra Croutons", price: 0.5 },
+      { name: "Parmesan", price: 1.0 },
+    ],
   },
   // Dinner
   {
@@ -122,7 +168,12 @@ export const items: Item[] = [
     categoryKey: "dinner",
     subcategory: "Steaks",
     ingredients: ["Ribeye", "Herb Butter", "Vegetables"],
-    imageUrl: "https://images.unsplash.com/photo-1603360946369-dc9bb6258143?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1260&h=750&q=80",  // Grilled steak from Unsplash
+    imageUrl: "https://images.unsplash.com/photo-1603360946369-dc9bb6258143?ixlib=rb-4.0.3&auto=format&fit=crop&w=1260&h=750&q=80",
+    addOns: [
+      { name: "Truffle Sauce", price: 3.0 },
+      { name: "Mashed Potatoes", price: 2.5 },
+      { name: "Peppercorn Sauce", price: 2.0 },
+    ],
   },
   {
     id: 11,
@@ -134,6 +185,11 @@ export const items: Item[] = [
     subcategory: "Seafood",
     ingredients: ["Salmon", "Lemon", "Herbs", "Asparagus"],
     imageUrl: "https://images.pexels.com/photos/555775/pexels-photo-555775.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    addOns: [
+      { name: "Lemon Butter Sauce", price: 2.0 },
+      { name: "Quinoa Side", price: 2.5 },
+      { name: "Extra Asparagus", price: 1.5 },
+    ],
   },
   {
     id: 12,
@@ -144,7 +200,12 @@ export const items: Item[] = [
     categoryKey: "dinner",
     subcategory: "Pasta",
     ingredients: ["Rice", "Mushrooms", "Parmesan", "Broth"],
-    imageUrl: "https://images.unsplash.com/photo-1621996346565-e3dbc353d2e5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1260&h=750&q=80",  // Risotto from Unsplash
+    imageUrl: "https://images.unsplash.com/photo-1621996346565-e3dbc353d2e5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1260&h=750&q=80",
+    addOns: [
+      { name: "Truffle Oil", price: 2.5 },
+      { name: "Grilled Chicken", price: 3.0 },
+      { name: "Extra Parmesan", price: 1.0 },
+    ],
   },
   // Starters
   {
@@ -156,7 +217,12 @@ export const items: Item[] = [
     categoryKey: "starters",
     subcategory: "Cold Appetizers",
     ingredients: ["Bread", "Tomato", "Basil", "Balsamic"],
-    imageUrl: "https://images.unsplash.com/photo-1559314809-0f31657def5e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1260&h=750&q=80",  // Bruschetta from Unsplash
+    imageUrl: "https://images.unsplash.com/photo-1559314809-0f31657def5e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1260&h=750&q=80",
+    addOns: [
+      { name: "Extra Balsamic", price: 1.0 },
+      { name: "Mozzarella", price: 1.5 },
+      { name: "Prosciutto", price: 2.0 },
+    ],
   },
   {
     id: 14,
@@ -167,7 +233,12 @@ export const items: Item[] = [
     categoryKey: "starters",
     subcategory: "Hot Appetizers",
     ingredients: ["Calamari", "Flour", "Marinara"],
-    imageUrl: "https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",  // Calamari example
+    imageUrl: "https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    addOns: [
+      { name: "Spicy Marinara", price: 1.0 },
+      { name: "Lemon Aioli", price: 1.5 },
+      { name: "Extra Calamari", price: 2.0 },
+    ],
   },
   // Desserts
   {
@@ -179,7 +250,12 @@ export const items: Item[] = [
     categoryKey: "desserts",
     subcategory: "Cakes",
     ingredients: ["Chocolate", "Flour", "Eggs", "Ice Cream"],
-    imageUrl: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1260&h=750&q=80",  // Lava cake from Unsplash
+    imageUrl: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?ixlib=rb-4.0.3&auto=format&fit=crop&w=1260&h=750&q=80",
+    addOns: [
+      { name: "Extra Ice Cream", price: 2.0 },
+      { name: "Berry Compote", price: 1.5 },
+      { name: "Whipped Cream", price: 1.0 },
+    ],
   },
   {
     id: 16,
@@ -191,6 +267,11 @@ export const items: Item[] = [
     subcategory: "French Pastries",
     ingredients: ["Vanilla Custard", "Sugar"],
     imageUrl: "https://images.pexels.com/photos/633501/pexels-photo-633501.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    addOns: [
+      { name: "Fresh Berries", price: 1.5 },
+      { name: "Caramel Sauce", price: 1.0 },
+      { name: "Mint Garnish", price: 0.5 },
+    ],
   },
   // Drinks
   {
@@ -202,7 +283,12 @@ export const items: Item[] = [
     categoryKey: "drinks",
     subcategory: "Coffee",
     ingredients: ["Coffee Beans", "Water"],
-    imageUrl: "https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",  // Espresso example
+    imageUrl: "https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1",
+    addOns: [
+      { name: "Extra Shot", price: 1.5 },
+      { name: "Whipped Cream", price: 1.0 },
+      { name: "Caramel Syrup", price: 0.5 },
+    ],
   },
   {
     id: 18,
@@ -213,6 +299,11 @@ export const items: Item[] = [
     categoryKey: "drinks",
     subcategory: "Fresh Juices",
     ingredients: ["Oranges"],
-    imageUrl: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1260&h=750&q=80",  // Orange juice from Unsplash
+    imageUrl: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-4.0.3&auto=format&fit=crop&w=1260&h=750&q=80",
+    addOns: [
+      { name: "Mint Leaves", price: 0.5 },
+      { name: "Ginger Shot", price: 1.0 },
+      { name: "Sparkling Water", price: 1.5 },
+    ],
   },
 ];

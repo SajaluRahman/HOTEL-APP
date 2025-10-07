@@ -22,39 +22,19 @@ const CategoriesPanel: React.FC<Props> = ({
       </h1>
     </div>
     {categories.map((cat) => (
-      <div key={cat.key}>
-        <div
-          className={`px-8 py-3 cursor-pointer transition border-l-4 ${
-            activeCategory === cat.key
-              ? "bg-gray-50 border-yellow-500 text-yellow-600"
-              : "border-transparent hover:bg-gray-50"
-          }`}
-          onClick={() => {
-            setActiveCategory(cat.key);
-            if (activeSubcategory) setActiveSubcategory(null);
-          }}
-        >
-          <div className="font-medium mb-2">{cat.name}</div>
-        </div>
-        {activeCategory === cat.key && (
-          <div className="ml-8 text-sm transition-all max-h-48">
-            {cat.subcategories.map((sub) => (
-              <div
-                key={sub}
-                className={`py-1 cursor-pointer hover:text-yellow-600 transition ${
-                  activeSubcategory === sub
-                    ? "font-semibold text-yellow-600"
-                    : "text-gray-500"
-                }`}
-                onClick={() =>
-                  setActiveSubcategory(activeSubcategory === sub ? null : sub)
-                }
-              >
-                {sub}
-              </div>
-            ))}
-          </div>
-        )}
+      <div
+        key={cat.key}
+        className={`px-8 py-3 cursor-pointer transition border-l-4 ${
+          activeCategory === cat.key
+            ? "bg-gray-50 border-yellow-500 text-yellow-600"
+            : "border-transparent hover:bg-gray-50"
+        }`}
+        onClick={() => {
+          setActiveCategory(cat.key);
+          if (activeSubcategory) setActiveSubcategory(null);
+        }}
+      >
+        <div className="font-medium mb-2">{cat.name}</div>
       </div>
     ))}
   </div>

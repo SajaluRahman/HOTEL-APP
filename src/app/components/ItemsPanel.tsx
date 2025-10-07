@@ -9,12 +9,14 @@ type Props = {
   activeCategory: string;
   activeSubcategory: string | null;
   setSelectedItem: (item: Item | null) => void;
+  setActiveSubcategory: (sub: string | null) => void; // Added
 };
 
 const ItemsPanel: React.FC<Props> = ({
   activeCategory,
   activeSubcategory,
   setSelectedItem,
+  setActiveSubcategory,
 }) => {
   const { wishlist, toggleWishlist } = useWishlist();
   const cat = categories.find((c) => c.key === activeCategory);
@@ -27,14 +29,42 @@ const ItemsPanel: React.FC<Props> = ({
     <div className="flex-1 p-4 lg:p-8 overflow-y-auto bg-gray-50">
       <div className="mb-8">
         <h2 className="text-2xl font-bold text-gray-900 mb-2">
-          {cat?.name} {activeSubcategory ? `- ${activeSubcategory}` : "Collection"}
+          {cat?.name || "Category"} {activeSubcategory ? `- ${activeSubcategory}` : "Collection"}
         </h2>
         <p className="text-gray-500 text-base">
           {activeCategory === "breakfast"
             ? "Start your day with our premium breakfast selections"
-            : `Explore our ${cat?.name?.toLowerCase()} delights`}
+            : `Explore our ${cat?.name?.toLowerCase() || "category"} delights`}
         </p>
       </div>
+      {/* Subcategories Tabs */}
+      {cat && (
+        <div className="flex flex-wrap gap-2 mb-6 overflow-x-auto pb-2">
+          <button
+            className={`px-4 py-2 rounded-full text-sm font-medium transition ${
+              activeSubcategory === null
+                ? "bg-yellow-500 text-white"
+                : "bg-white text-gray-600 border border-gray-200 hover:bg-gray-50"
+            }`}
+            onClick={() => setActiveSubcategory(null)}
+          >
+            All
+          </button>
+          {cat.subcategories.map((sub) => (
+            <button
+              key={sub}
+              className={`px-4 py-2 rounded-full text-sm font-medium transition ${
+                activeSubcategory === sub
+                  ? "bg-yellow-500 text-white"
+                  : "bg-white text-gray-600 border border-gray-200 hover:bg-gray-50"
+              }`}
+              onClick={() => setActiveSubcategory(activeSubcategory === sub ? null : sub)}
+            >
+              {sub}
+            </button>
+          ))}
+        </div>
+      )}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-6 gap-4 lg:gap-6">
         {filteredItems.map((item) => (
           <div
