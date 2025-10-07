@@ -9,7 +9,7 @@ type Props = {
   activeCategory: string;
   activeSubcategory: string | null;
   setSelectedItem: (item: Item | null) => void;
-  setActiveSubcategory: (sub: string | null) => void; // Added
+  setActiveSubcategory: (sub: string | null) => void;
 };
 
 const ItemsPanel: React.FC<Props> = ({
@@ -78,22 +78,11 @@ const ItemsPanel: React.FC<Props> = ({
                 alt={item.name}
                 className="w-full h-40 object-cover rounded-t-xl"
               />
-              <button
-                className={`absolute top-3 right-3 w-9 h-9 flex items-center justify-center rounded-full shadow hover:scale-110 transition border ${
-                  wishlist[item.id] ? "bg-yellow-500 text-white" : "bg-white text-gray-600"
-                }`}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  toggleWishlist(item);
-                }}
-              >
-                <span className="text-lg">{wishlist[item.id] ? "♥" : "♡"}</span>
-              </button>
             </div>
             <div className="p-5">
               <h3 className="font-semibold text-gray-900 mb-2">{item.name}</h3>
               <p className="text-sm text-gray-500 mb-4 line-clamp-2">{item.description}</p>
-              <div className="flex gap-2 items-center">
+              <div className="flex gap-2 items-center mb-4">
                 <span className="line-through text-gray-400 text-sm">
                   ${item.originalPrice.toFixed(2)}
                 </span>
@@ -101,6 +90,19 @@ const ItemsPanel: React.FC<Props> = ({
                   ${item.price.toFixed(2)}
                 </span>
               </div>
+              <button
+                className={`w-full py-2 rounded-lg text-sm font-medium transition ${
+                  wishlist[item.id]
+                    ? "bg-yellow-500 text-white hover:bg-yellow-600"
+                    : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                }`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  toggleWishlist(item);
+                }}
+              >
+                {wishlist[item.id] ? "Added to Cart" : "Add to Cart"}
+              </button>
             </div>
           </div>
         ))}
